@@ -1,7 +1,7 @@
 % MATLAB/octave test driver for nodal3dziff. Barnett 8/30/17
 
 clear;
-N = 200; u = rand(N,N,N)-1/2;    % iid bond perc on Z^3.
+N = 200; u = rand(N,N,N)-1/2;    % iid site perc on Z^3.
 o.verb = 1;
 
 tic; [d nd siz ier]  = nodal3dziff(u,o); toc  % runs for <1 s

@@ -2,7 +2,7 @@
 # Barnett 8/30/17
 
 CXX=g++
-CXXFLAGS = -fPIC -Ofast -funroll-loops -march=native
+CXXFLAGS = -fPIC -Ofast -funroll-loops -march=native -g
 
 # location of MATLAB's mex compiler...
 MEX=mex
@@ -45,6 +45,7 @@ matlab: gateway.cpp domainlib.h domainlib.o
 octave: gateway.cpp domainlib.h domainlib.o
 	mkoctfile --mex gateway.cpp domainlib.o -lm
 	octave test_nodal3dziff.m
+	octave test_perc3d.m
 
 mex: domainlib.mw
 	$(MWRAP) -list -mex gateway -mb domainlib.mw

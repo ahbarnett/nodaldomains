@@ -25,3 +25,4 @@ The following routines are available in the library, and MATLAB/octave functions
 
 - `nodal3dziff` : returns labeled nodal domains, and list of their sizes, for a real function given on 3D cubical grid, using quick union/find.
 
+- `perc3d` : estimates percolation threshold h0 for real function given on 3D cubical grid, and nodal domain information at threshold, using quick union/find in style of Newman-Ziff.
