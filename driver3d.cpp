@@ -47,11 +47,12 @@ int main(int argc, char* argv[]) {
   }
 
   // test perc3d :
-  int nh = 100000;                 // other than malloc, no CPU cost to large
+  int nh = 100000;                  // other than malloc, large just as fast
   double h0, hran[2] = {0.0,0.45};  // h interval to sweep in nh steps
   ier = perc3d(N, &u[0], &d[0], &siz[0], &nd, nh, hran, &h0, verb);
   if (verb) {
-    printf("h0 = %g\n",h0);
+    double hknown = 0.5 - 0.3116076;
+    printf("h0 = %g (known result for site perc on Z^3 = %g)\n",h0,hknown);
     if (h0==hran[1])
       printf("h0 at top of range: perc threshold probably >h0\n");
   }

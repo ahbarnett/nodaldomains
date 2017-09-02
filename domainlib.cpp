@@ -43,17 +43,18 @@ void qunion(int* ptr, int p, int q)
 }
 
 
-int labeldoms(int n, int* ptr, double *u, int* d, int* siz, int* nd, int sign, double h, int verb)
+int labeldoms(int n, int* ptr, double *u, int* d, int* siz, int* nd, int sign, double h, int minsize, int verb)
 // Utility to label domains with numbers 1,..,nd. Doesn't care about dimension.
 // If sign!=0, omits domains whose root has u<h (if sign<0) or u>h (if sign>0).
+// minsize sets the minimum allowable domain size (in # of sites).
 // Outputs: d, grid of domain numbers; siz, domain sizes; nd # of domains.
 {
   int *dn;
   dn = (int*)malloc(sizeof(int)*n);     // domain numbers, need for all sites!
   int dc=0;                             // domain counter
   for (int j=0; j<n; ++j) {
-    if (ptr[j]<0)                     // only write to the root sites
-      if (sign>0 && u[j]<h || sign<0 && u[j]>h)
+    if (ptr[j]<0)                      // only write to the root sites
+      if (-ptr[j]<minsize || sign>0 && u[j]<h || sign<0 && u[j]>h)
 	dn[j] = 0;                     // not a domain; don't increment dc
       else {
 	siz[dc] = -ptr[j];
@@ -133,7 +134,7 @@ int nodal3dziff(int N, double *u, int *d, int *siz, int *nd, int sign, int verb)
       }
   if (verb) printf("unions done\n");
   
-  int ier = labeldoms(n, ptr, u, d, siz, nd, sign, 0.0, verb);
+  int ier = labeldoms(n, ptr, u, d, siz, nd, sign, 0.0, 0, verb);
   free(ptr);
   return ier;
 }
@@ -237,27 +238,27 @@ int perc3d(int N, double *u, int *d, int* siz, int* nd, int nh, double *hran,
       // use connectedness given by if u>=h, without periodic wrapping:
       if (x>0) {
 	int j = i-1;         // x neighbor
-	qunion(&ptr[0],i,j);
+	if (u[j]>=*h0) qunion(&ptr[0],i,j);
       }
       if (x<N-1) {
 	int j = i+1;         // x neighbor
-	qunion(&ptr[0],i,j);
+	if (u[j]>=*h0) qunion(&ptr[0],i,j);
       }
       if (y>0) {
 	int j = i-N;         // y neighbor
-	qunion(&ptr[0],i,j);
+	if (u[j]>=*h0) qunion(&ptr[0],i,j);
       }
       if (y<N-1) {
 	int j = i+N;         // y neighbor
-	qunion(&ptr[0],i,j);
+	if (u[j]>=*h0) qunion(&ptr[0],i,j);
       }
       if (z>0) {
 	int j = i-N*N;         // z neighbor
-	qunion(&ptr[0],i,j);
+	if (u[j]>=*h0) qunion(&ptr[0],i,j);
       }
       if (z<N-1) {
 	int j = i+N*N;         // z neighbor
-	qunion(&ptr[0],i,j);
+	if (u[j]>=*h0) qunion(&ptr[0],i,j);
       }
     }
     perc = (findroot(&ptr[0],0)==findroot(&ptr[0],n-1));  // faces connected?
@@ -268,6 +269,8 @@ int perc3d(int N, double *u, int *d, int* siz, int* nd, int nh, double *hran,
   if (verb) printf("perc done (perc=%d)\n",perc);
   
   // output domain info at threshold, or at lowest h if never perced
-  ier = labeldoms(n, &ptr[0], u, d, siz, nd, +1, *h0, verb);  // sets d, siz, nd
+  int minsize = 2;    // easiest way to remove single-site domains (ie u<h)
+  // sets d, siz, nd
+  ier = labeldoms(n, &ptr[0], u, d, siz, nd, 0, *h0, minsize, verb);
   return ier;
 }
