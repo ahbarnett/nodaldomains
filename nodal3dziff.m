@@ -5,7 +5,9 @@ function [d nd siz ier] = nodal3dziff(u,o)
 % function [d nd siz ier] = nodal3dziff(u,o)
 % Inputs:
 %  u (N*N*N) = cube of real numbers.
-%  o sets options such as o.verb : verbosity (0,1,...)
+%  o optional struct allowing one to set:
+%     o.sign : if 0 count all domains (default); if >0 just +ve, <0 just -ve.
+%     o.verb : verbosity (0,1,2,3)
 % Outputs:
 %  d (N*N*N) = integer nodal domain labeling for sets u>0 and u<0.
 %               Labels are 1...nd.
@@ -20,9 +22,10 @@ if size(u,2)~=N | size(u,3)~=N, error('u must be cubical'); end
 n=N*N*N;
 if nargin<2, o = []; end
 verb = 0; if isfield(o,'verb'); verb = o.verb; end
+sign = 0; if isfield(o,'sign'); sign = o.sign; end
 
-mex_id_ = 'o int = nodal3dziff(i int, i double[], o int[x], o int[x], o int[x], i int)';
-[ier, d, siz, nd] = gateway(mex_id_, N, u, verb, n, n, 1);
+mex_id_ = 'o int = nodal3dziff(i int, i double[], o int[x], o int[x], o int[x], i int, i int)';
+[ier, d, siz, nd] = gateway(mex_id_, N, u, sign, verb, n, n, 1);
 
 d = reshape(d,[N N N]);  % mwrap can't handle 3d arrays
 siz = siz(1:nd)';        % truncate

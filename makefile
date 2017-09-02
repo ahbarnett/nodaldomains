@@ -2,7 +2,7 @@
 # Barnett 8/30/17
 
 CXX=g++
-CXXFLAGS = -fPIC -Ofast -funroll-loops -march=native -g
+CXXFLAGS = -fPIC -Ofast -funroll-loops -march=native
 
 # location of MATLAB's mex compiler...
 MEX=mex

@@ -3,6 +3,7 @@
 clear;
 N = 200; u = rand(N,N,N)-1/2;    % iid site perc on Z^3.
 o.verb = 1;
+o.sign = 1;
 
 tic; [d nd siz ier]  = nodal3dziff(u,o); toc  % runs for <1 s
 

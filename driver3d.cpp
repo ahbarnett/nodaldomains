@@ -34,13 +34,14 @@ int main(int argc, char* argv[]) {
     u[i] = rand01() - 0.5;     // signs will give site percolating Z^3 lattice
 
   // test nodal3dziff :
-  int ier = nodal3dziff(N, &u[0], &d[0], &siz[0], &nd, verb);
+  int sign = 1;
+  int ier = nodal3dziff(N, &u[0], &d[0], &siz[0], &nd, sign, verb);
   if (verb>1) {
     printf("first few entries of u and d...\n");
     for (int i=0;i<50;++i)
       cout << u[i] << "   \t" << d[i] << endl;
     printf("first few i, siz[i] pairs... (i shown 1-indexed to match d)\n");
-    if (nd>20) nd=20;         // how many to show
+    if (nd>20) nd=20;         // how many to show; should be 1 or 2 big ones
     for (int i=0;i<nd;++i)
       cout << i+1 << "    \t" << siz[i] << endl;
   }
