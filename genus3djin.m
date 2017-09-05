@@ -231,3 +231,12 @@ rho = sqrt(xx.^2+yy.^2); nd = 2;
 d = 1+((rho-0.5).^2+zz.^2<r1^2);
 [~,g,vol,nei,ins]=genus3djin(d,nd,o);%, 'nei:', nei{:}
 if g==[0 1], 'genus ok', end
+
+sc = 12.5; x1=mod((1+xx)*sc/2,1)*2-1; y1=mod((1+yy)*sc/2,1)*2-1;
+a = 0.5;
+d = 1+(zz.^2<0.8-xx.^2-yy.^2 & abs(yy)<a & abs(xx)<a & x1.^2+y1.^2>.5^2);
+nd = 2;
+figure; show3ddomain(d,2,0);
+'nasty shape of 2 with 36 holes in it surrounded by 1:'
+[~,g,vol,nei,ins]=genus3djin(d,nd,o);%, 'nei:', nei{:}
+if g==[0 36], 'genus ok', end
