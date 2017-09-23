@@ -285,11 +285,74 @@ mxWrapCopyDef    (mxWrapCopy_ulong,     ulong)
 mxWrapReturnDef  (mxWrapReturn_ulong,   ulong)
 
 /* ---- domainlib.mw: 42 ----
- * int ier = nodal3dziff(int N, double[] u, output int[n] d, output int[n] siz, output int[1] nd, int sign, int verb);
+ * int ier = nodal2dziff(int N, double[] u, output int[N, N] d, output int[n] siz, output int[1] nd, int sign, int verb);
  */
-const char* stubids1_ = "o int = nodal3dziff(i int, i double[], o int[x], o int[x], o int[x], i int, i int)";
+const char* stubids1_ = "o int = nodal2dziff(i int, i double[], o int[xx], o int[x], o int[x], i int, i int)";
 
 void mexStub1(int nlhs, mxArray* plhs[],
+              int nrhs, const mxArray* prhs[])
+{
+    const char* mw_err_txt_ = 0;
+    int         in0_;    /* N          */
+    double*     in1_ =0; /* u          */
+    int         in2_;    /* sign       */
+    int         in3_;    /* verb       */
+    int         out0_;   /* ier        */
+    int*        out1_=0; /* d          */
+    int*        out2_=0; /* siz        */
+    int*        out3_=0; /* nd         */
+    int         dim4_;   /* N          */
+    int         dim5_;   /* N          */
+    int         dim6_;   /* n          */
+    int         dim7_;   /* 1          */
+
+    dim4_ = (int) mxWrapGetScalar(prhs[4], &mw_err_txt_);
+    dim5_ = (int) mxWrapGetScalar(prhs[5], &mw_err_txt_);
+    dim6_ = (int) mxWrapGetScalar(prhs[6], &mw_err_txt_);
+    dim7_ = (int) mxWrapGetScalar(prhs[7], &mw_err_txt_);
+
+    in0_ = (int) mxWrapGetScalar(prhs[0], &mw_err_txt_);
+    if (mw_err_txt_)
+        goto mw_err_label;
+    if (mxGetM(prhs[1])*mxGetN(prhs[1]) != 0) {
+        in1_ = mxGetPr(prhs[1]);
+    } else
+        in1_ = NULL;
+    in2_ = (int) mxWrapGetScalar(prhs[2], &mw_err_txt_);
+    if (mw_err_txt_)
+        goto mw_err_label;
+    in3_ = (int) mxWrapGetScalar(prhs[3], &mw_err_txt_);
+    if (mw_err_txt_)
+        goto mw_err_label;
+    out1_ = (int*) mxMalloc(dim4_*dim5_*sizeof(int));
+    out2_ = (int*) mxMalloc(dim6_*sizeof(int));
+    out3_ = (int*) mxMalloc(dim7_*sizeof(int));
+    if (mexprofrecord_)
+        mexprofrecord_[1]++;
+    out0_ = nodal2dziff(in0_, in1_, out1_, out2_, out3_, in2_, in3_);
+    plhs[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
+    *mxGetPr(plhs[0]) = out0_;
+    plhs[1] = mxCreateDoubleMatrix(dim4_, dim5_, mxREAL);
+    mxWrapCopy_int(plhs[1], out1_, dim4_*dim5_);
+    plhs[2] = mxCreateDoubleMatrix(dim6_, 1, mxREAL);
+    mxWrapCopy_int(plhs[2], out2_, dim6_);
+    plhs[3] = mxCreateDoubleMatrix(dim7_, 1, mxREAL);
+    mxWrapCopy_int(plhs[3], out3_, dim7_);
+
+mw_err_label:
+    if (out1_) mxFree(out1_);
+    if (out2_) mxFree(out2_);
+    if (out3_) mxFree(out3_);
+    if (mw_err_txt_)
+        mexErrMsgTxt(mw_err_txt_);
+}
+
+/* ---- domainlib.mw: 73 ----
+ * int ier = nodal3dziff(int N, double[] u, output int[n] d, output int[n] siz, output int[1] nd, int sign, int verb);
+ */
+const char* stubids2_ = "o int = nodal3dziff(i int, i double[], o int[x], o int[x], o int[x], i int, i int)";
+
+void mexStub2(int nlhs, mxArray* plhs[],
               int nrhs, const mxArray* prhs[])
 {
     const char* mw_err_txt_ = 0;
@@ -326,7 +389,7 @@ void mexStub1(int nlhs, mxArray* plhs[],
     out2_ = (int*) mxMalloc(dim5_*sizeof(int));
     out3_ = (int*) mxMalloc(dim6_*sizeof(int));
     if (mexprofrecord_)
-        mexprofrecord_[1]++;
+        mexprofrecord_[2]++;
     out0_ = nodal3dziff(in0_, in1_, out1_, out2_, out3_, in2_, in3_);
     plhs[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
     *mxGetPr(plhs[0]) = out0_;
@@ -345,12 +408,93 @@ mw_err_label:
         mexErrMsgTxt(mw_err_txt_);
 }
 
-/* ---- domainlib.mw: 74 ----
+/* ---- domainlib.mw: 105 ----
+ * int ier = perc2d(int N, double[] u, output int[N, N] d, output int[n] siz, output int[1] nd, int nh, double[2] hran, output double[1] h0, int verb);
+ */
+const char* stubids3_ = "o int = perc2d(i int, i double[], o int[xx], o int[x], o int[x], i int, i double[x], o double[x], i int)";
+
+void mexStub3(int nlhs, mxArray* plhs[],
+              int nrhs, const mxArray* prhs[])
+{
+    const char* mw_err_txt_ = 0;
+    int         in0_;    /* N          */
+    double*     in1_ =0; /* u          */
+    int         in2_;    /* nh         */
+    double*     in3_ =0; /* hran       */
+    int         in4_;    /* verb       */
+    int         out0_;   /* ier        */
+    int*        out1_=0; /* d          */
+    int*        out2_=0; /* siz        */
+    int*        out3_=0; /* nd         */
+    double*     out4_=0; /* h0         */
+    int         dim5_;   /* N          */
+    int         dim6_;   /* N          */
+    int         dim7_;   /* n          */
+    int         dim8_;   /* 1          */
+    int         dim9_;   /* 2          */
+    int         dim10_;   /* 1          */
+
+    dim5_ = (int) mxWrapGetScalar(prhs[5], &mw_err_txt_);
+    dim6_ = (int) mxWrapGetScalar(prhs[6], &mw_err_txt_);
+    dim7_ = (int) mxWrapGetScalar(prhs[7], &mw_err_txt_);
+    dim8_ = (int) mxWrapGetScalar(prhs[8], &mw_err_txt_);
+    dim9_ = (int) mxWrapGetScalar(prhs[9], &mw_err_txt_);
+    dim10_ = (int) mxWrapGetScalar(prhs[10], &mw_err_txt_);
+
+    if (mxGetM(prhs[3])*mxGetN(prhs[3]) != dim9_) {
+        mw_err_txt_ = "Bad argument size: hran";        goto mw_err_label;
+    }
+
+    in0_ = (int) mxWrapGetScalar(prhs[0], &mw_err_txt_);
+    if (mw_err_txt_)
+        goto mw_err_label;
+    if (mxGetM(prhs[1])*mxGetN(prhs[1]) != 0) {
+        in1_ = mxGetPr(prhs[1]);
+    } else
+        in1_ = NULL;
+    in2_ = (int) mxWrapGetScalar(prhs[2], &mw_err_txt_);
+    if (mw_err_txt_)
+        goto mw_err_label;
+    if (mxGetM(prhs[3])*mxGetN(prhs[3]) != 0) {
+        in3_ = mxGetPr(prhs[3]);
+    } else
+        in3_ = NULL;
+    in4_ = (int) mxWrapGetScalar(prhs[4], &mw_err_txt_);
+    if (mw_err_txt_)
+        goto mw_err_label;
+    out1_ = (int*) mxMalloc(dim5_*dim6_*sizeof(int));
+    out2_ = (int*) mxMalloc(dim7_*sizeof(int));
+    out3_ = (int*) mxMalloc(dim8_*sizeof(int));
+    out4_ = (double*) mxMalloc(dim10_*sizeof(double));
+    if (mexprofrecord_)
+        mexprofrecord_[3]++;
+    out0_ = perc2d(in0_, in1_, out1_, out2_, out3_, in2_, in3_, out4_, in4_);
+    plhs[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
+    *mxGetPr(plhs[0]) = out0_;
+    plhs[1] = mxCreateDoubleMatrix(dim5_, dim6_, mxREAL);
+    mxWrapCopy_int(plhs[1], out1_, dim5_*dim6_);
+    plhs[2] = mxCreateDoubleMatrix(dim7_, 1, mxREAL);
+    mxWrapCopy_int(plhs[2], out2_, dim7_);
+    plhs[3] = mxCreateDoubleMatrix(dim8_, 1, mxREAL);
+    mxWrapCopy_int(plhs[3], out3_, dim8_);
+    plhs[4] = mxCreateDoubleMatrix(dim10_, 1, mxREAL);
+    mxWrapCopy_double(plhs[4], out4_, dim10_);
+
+mw_err_label:
+    if (out1_) mxFree(out1_);
+    if (out2_) mxFree(out2_);
+    if (out3_) mxFree(out3_);
+    if (out4_) mxFree(out4_);
+    if (mw_err_txt_)
+        mexErrMsgTxt(mw_err_txt_);
+}
+
+/* ---- domainlib.mw: 136 ----
  * int ier = perc3d(int N, double[] u, output int[n] d, output int[n] siz, output int[1] nd, int nh, double[2] hran, output double[1] h0, int verb);
  */
-const char* stubids2_ = "o int = perc3d(i int, i double[], o int[x], o int[x], o int[x], i int, i double[x], o double[x], i int)";
+const char* stubids4_ = "o int = perc3d(i int, i double[], o int[x], o int[x], o int[x], i int, i double[x], o double[x], i int)";
 
-void mexStub2(int nlhs, mxArray* plhs[],
+void mexStub4(int nlhs, mxArray* plhs[],
               int nrhs, const mxArray* prhs[])
 {
     const char* mw_err_txt_ = 0;
@@ -402,7 +546,7 @@ void mexStub2(int nlhs, mxArray* plhs[],
     out3_ = (int*) mxMalloc(dim7_*sizeof(int));
     out4_ = (double*) mxMalloc(dim9_*sizeof(double));
     if (mexprofrecord_)
-        mexprofrecord_[2]++;
+        mexprofrecord_[4]++;
     out0_ = perc3d(in0_, in1_, out1_, out2_, out3_, in2_, in3_, out4_, in4_);
     plhs[0] = mxCreateDoubleMatrix(1, 1, mxREAL);
     *mxGetPr(plhs[0]) = out0_;
@@ -441,12 +585,16 @@ void mexFunction(int nlhs, mxArray* plhs[],
         mexStub1(nlhs,plhs, nrhs-1,prhs+1);
     else if (strcmp(id, stubids2_) == 0)
         mexStub2(nlhs,plhs, nrhs-1,prhs+1);
+    else if (strcmp(id, stubids3_) == 0)
+        mexStub3(nlhs,plhs, nrhs-1,prhs+1);
+    else if (strcmp(id, stubids4_) == 0)
+        mexStub4(nlhs,plhs, nrhs-1,prhs+1);
     else if (strcmp(id, "*profile on*") == 0) {
         if (!mexprofrecord_) {
-            mexprofrecord_ = (int*) malloc(3 * sizeof(int));
+            mexprofrecord_ = (int*) malloc(5 * sizeof(int));
             mexLock();
         }
-        memset(mexprofrecord_, 0, 3 * sizeof(int));
+        memset(mexprofrecord_, 0, 5 * sizeof(int));
     } else if (strcmp(id, "*profile off*") == 0) {
         if (mexprofrecord_) {
             free(mexprofrecord_);
@@ -457,7 +605,9 @@ void mexFunction(int nlhs, mxArray* plhs[],
         if (!mexprofrecord_)
             mexPrintf("Profiler inactive\n");
         mexPrintf("%d calls to domainlib.mw:42\n", mexprofrecord_[1]);
-        mexPrintf("%d calls to domainlib.mw:74\n", mexprofrecord_[2]);
+        mexPrintf("%d calls to domainlib.mw:73\n", mexprofrecord_[2]);
+        mexPrintf("%d calls to domainlib.mw:105\n", mexprofrecord_[3]);
+        mexPrintf("%d calls to domainlib.mw:136\n", mexprofrecord_[4]);
     } else if (strcmp(id, "*profile log*") == 0) {
         FILE* logfp;
         if (nrhs != 2 || mxGetString(prhs[1], id, sizeof(id)) != 0)
@@ -468,7 +618,9 @@ void mexFunction(int nlhs, mxArray* plhs[],
         if (!mexprofrecord_)
             fprintf(logfp, "Profiler inactive\n");
         fprintf(logfp, "%d calls to domainlib.mw:42\n", mexprofrecord_[1]);
-        fprintf(logfp, "%d calls to domainlib.mw:74\n", mexprofrecord_[2]);
+        fprintf(logfp, "%d calls to domainlib.mw:73\n", mexprofrecord_[2]);
+        fprintf(logfp, "%d calls to domainlib.mw:105\n", mexprofrecord_[3]);
+        fprintf(logfp, "%d calls to domainlib.mw:136\n", mexprofrecord_[4]);
         fclose(logfp);
     } else
         mexErrMsgTxt("Unknown identifier");

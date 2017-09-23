@@ -1,5 +1,5 @@
 # makefile for nodal statistics utilities
-# Barnett 8/30/17
+# Barnett 8/30/17, added 2d 9/22/17
 
 CXX=g++
 CXXFLAGS = -fPIC -Ofast -funroll-loops -march=native
@@ -31,10 +31,14 @@ usage:
 
 lib: domainlib.o
 
-test: driver3d
+test: driver2d driver3d
+	./driver2d 1
 	./driver3d 1
 
 all: test matlab octave
+
+driver2d: driver2d.cpp domainlib.o
+	$(CXX) $(CXXFLAGS) driver2d.cpp -o driver2d domainlib.o -lm
 
 driver3d: driver3d.cpp domainlib.o
 	$(CXX) $(CXXFLAGS) driver3d.cpp -o driver3d domainlib.o -lm
@@ -44,7 +48,9 @@ matlab: gateway.cpp domainlib.h domainlib.o
 
 octave: gateway.cpp domainlib.h domainlib.o
 	mkoctfile --mex gateway.cpp domainlib.o -lm
+	octave test_nodal2dziff.m
 	octave test_nodal3dziff.m
+	octave test_perc2d.m
 	octave test_perc3d.m
 
 mex: domainlib.mw
@@ -52,7 +58,7 @@ mex: domainlib.mw
 	$(MWRAP) -mex gateway -c gateway.cpp domainlib.mw
 
 clean:
-	rm -f *.o driver3d
+	rm -f *.o driver2d driver3d
 # only do this if you have mwrap to rebuild the interfaces...
 mexclean: clean
-	rm -f gateway.cpp nodal3dziff.m gateway.mex*
+	rm -f gateway.cpp nodal2dziff.m nodal3dziff.m perc2d.m perc3d.m gateway.mex*
