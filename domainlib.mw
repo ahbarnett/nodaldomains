@@ -86,8 +86,8 @@ siz = siz(1:nd)';        % truncate
 %  nh = number of uniformly spaced h values in range. (in empty, uses 1e5)
 %  o sets options such as o.verb : verbosity (0,1,...)
 % Outputs:
-%  h0 = estimate of lowest h where the set u>h percolates (across z faces).
-%  d (N*N) = integer nodal domain labeling for sets u>0 and u<0.
+%  h0 = estimate of highest h where the set u>h percolates (across z faces).
+%  d (N*N) = integer nodal domain labeling for sets u>h0 and u<h0.
 %            Labels are 1...nd.
 %  nd = number of nodal domains = max(d(:))
 %  siz (1*nd) = sizes of nodal domains
@@ -117,8 +117,8 @@ siz = siz(1:nd)';        % truncate
 %  nh = number of uniformly spaced h values in range. (in empty, uses 1e5)
 %  o sets options such as o.verb : verbosity (0,1,...)
 % Outputs:
-%  h0 = estimate of lowest h where the set u>h percolates (across z faces).
-%  d (N*N*N) = integer nodal domain labeling for sets u>0 and u<0.
+%  h0 = estimate of highest h where the set u>h percolates (across z faces).
+%  d (N*N*N) = integer nodal domain labeling for sets u>h0 and u<h0.
 %               Labels are 1...nd.
 %  nd = number of nodal domains = max(d(:))
 %  siz (1*nd) = sizes of nodal domains
